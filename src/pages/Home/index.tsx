@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import "./styles.scss";
+import clickButton from "../../assets/sounds/click-124467.mp3";
 
 export default function Home() {
+  function handleClickLink() {
+    const audio = new Audio(clickButton);
+    audio.play();
+  }
+
   return (
     <>
       <div className="home-content">
@@ -10,15 +16,27 @@ export default function Home() {
         </h1>
         <h2 className="home-subtitle">Teste seus conhecimentos</h2>
         <div className="home-content-buttons">
-          <Link className="home-link" to={"/quizz/react"}>
+          <Link
+            onClick={handleClickLink}
+            className="home-link"
+            to={"/quizz/react"}
+          >
             {" "}
             React
           </Link>
-          <Link className="home-link" to={"/quizz/css"}>
+          <Link
+            onClick={handleClickLink}
+            className="home-link"
+            to={"/quizz/css"}
+          >
             {" "}
             CSS
           </Link>
-          <Link className="home-link" to={"/quizz/typeScript"}>
+          <Link
+            onClick={handleClickLink}
+            className="home-link"
+            to={"/quizz/typeScript"}
+          >
             {" "}
             TypeScript
           </Link>
