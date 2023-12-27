@@ -40,12 +40,6 @@ export default function Quizz() {
     }
   }, [assunto, perguntas]);
 
-  function handleSubmitResponse() {
-    icons.forEach((icon) => {
-      icon.classList.add("show");
-    });
-  }
-
   function handleResponse(resposta: string) {
     if (resposta === perguntas[perguntaAtual].respostaCorreta) {
       setAcertos(acertos + 1);
@@ -53,6 +47,8 @@ export default function Quizz() {
       flash();
     } else {
       setErros(erros + 1);
+      shake();
+
       handleAudioError();
     }
     handleSubmitResponse();
@@ -82,13 +78,28 @@ export default function Quizz() {
   }
 
   function flash() {
-    const body = document.querySelector(":root");
+    const body = document.querySelector("body");
     body?.classList.add("flash");
     setTimeout(() => {
       body?.classList.remove("flash");
     }, 1000);
   }
+
+  function shake() {
+    const body = document.querySelector("body");
+    body?.classList.add("shake");
+    setTimeout(() => {
+      body?.classList.remove("shake");
+    }, 1000);
+  }
+
   const icons = document.querySelectorAll(".icons");
+
+  function handleSubmitResponse() {
+    icons.forEach((icon) => {
+      icon.classList.add("show");
+    });
+  }
 
   function handleSubmitResponseRemove() {
     icons.forEach((icon) => {
@@ -105,7 +116,7 @@ export default function Quizz() {
     <>
       <div className="quiz-container">
         <div className="quiz-title">
-          <Link className="Link" to="/">
+          <Link to="/">
             <h1>Digital Quiz</h1>
           </Link>
 
@@ -135,10 +146,13 @@ export default function Quizz() {
               </button>
             ))
           ) : (
-            <div className="quiz-result">
-              <h2>Acertos: {acertos}</h2>
-              <h2>Erros: {erros}</h2>
-              <h2>Porcentagem: {calcularPorcentagemAcerto()}%</h2>
+            <div className="quiz-result-container">
+              <div className="quiz-result-content">
+                <h2>Acertos: {acertos}</h2>
+                <h2>Erros: {erros}</h2>
+                <h2>Porcentagem: {calcularPorcentagemAcerto()}%</h2>
+              </div>
+
               <button onClick={() => handleRestart()}>Reiniciar</button>
             </div>
           )}
