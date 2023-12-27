@@ -6,11 +6,7 @@
   text-decoration: none;
   transition: all 0.6s;
   background: transparent;
-
-  padding: 1rem 2rem;
-
-  &:hover,
-  &:focus {
-    color: blue;
-  }
+  font-size: 1.33rem;
+  width: 90%;
+  padding: 0.8rem 0;
 }
