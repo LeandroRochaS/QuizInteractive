@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import "./styles.scss";
-import { getAllPerguntas } from "../../data/data";
+import {
+  getAllPerguntasCSS,
+  getAllPerguntasReact,
+  getAllPerguntasTypeScript,
+} from "../../data/data";
+import { useParams } from "react-router-dom";
 
 type Pergunta = {
   pergunta: string;
@@ -13,10 +18,21 @@ export default function Quizz() {
   const [perguntaAtual, setPerguntaAtual] = useState(0);
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
+  const { assunto } = useParams();
+
+  console.log(assunto);
 
   useEffect(() => {
-    setPerguntas(getAllPerguntas());
-  }, [perguntaAtual, perguntas]);
+    if (assunto === "react") {
+      setPerguntas(getAllPerguntasReact());
+    }
+    if (assunto === "css") {
+      setPerguntas(getAllPerguntasCSS());
+    }
+    if (assunto === "typeScript") {
+      setPerguntas(getAllPerguntasTypeScript());
+    }
+  }, [assunto, perguntas]);
 
   function handleResponse(resposta: string) {
     if (resposta === perguntas[perguntaAtual].respostaCorreta) {
@@ -25,6 +41,12 @@ export default function Quizz() {
       setErros(erros + 1);
     }
     setPerguntaAtual(perguntaAtual + 1);
+  }
+
+  function handleRestart() {
+    setPerguntaAtual(0);
+    setAcertos(0);
+    setErros(0);
   }
 
   return (
@@ -51,7 +73,7 @@ export default function Quizz() {
           <div>
             <h2>Acertos: {acertos}</h2>
             <h2>Erros: {erros}</h2>
-            <button onClick={() => setPerguntaAtual(0)}>Reiniciar</button>
+            <button onClick={() => handleRestart()}>Reiniciar</button>
           </div>
         )}
       </div>
