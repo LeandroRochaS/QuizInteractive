@@ -6,6 +6,7 @@ import {
   getAllPerguntasTypeScript,
 } from "../../data/data";
 import { useParams } from "react-router-dom";
+import Respost from "../Respost";
 
 type Pergunta = {
   pergunta: string;
@@ -51,22 +52,20 @@ export default function Quizz() {
 
   return (
     <>
-      <h1>Quizz</h1>
+      <h1>Digital Quiz</h1>
+      <span>
+        {perguntas.length != perguntaAtual
+          ? `Questão ${perguntaAtual + 1}/${perguntas.length}`
+          : ``}
+      </span>
 
       <h2>{perguntas[perguntaAtual]?.pergunta}</h2>
-      <span>
-        (
-        {perguntas.length != perguntaAtual
-          ? `${perguntaAtual + 1}/${perguntas.length}`
-          : `0/0`}
-        )
-      </span>
 
       <div className="respostas">
         {perguntas.length != perguntaAtual ? (
           perguntas[perguntaAtual]?.respostas.map((resposta, index) => (
             <button key={index} onClick={() => handleResponse(resposta)}>
-              {resposta}
+              <Respost text={resposta}></Respost>
             </button>
           ))
         ) : (
