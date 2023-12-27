@@ -4,3 +4,9 @@
   padding: 2rem;
   text-align: center;
 }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

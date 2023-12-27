@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import QuizzPage from "./pages/QuizzPage";
+import QuizzPage from "./pages/QuizPage";
 import Home from "./pages/Home";
 
 function App() {
