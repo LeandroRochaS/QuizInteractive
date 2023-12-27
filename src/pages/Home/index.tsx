@@ -9,9 +9,20 @@ export default function Home() {
           <b>Digital </b> Quiz
         </h1>
         <h2 className="home-subtitle">Teste seus conhecimentos</h2>
-        <Link to={"/quizz/react"}> React</Link>
-        <Link to={"/quizz/css"}> CSS</Link>
-        <Link to={"/quizz/typeScript"}> typeScript</Link>
+        <div className="home-content-buttons">
+          <Link className="home-link" to={"/quizz/react"}>
+            {" "}
+            React
+          </Link>
+          <Link className="home-link" to={"/quizz/css"}>
+            {" "}
+            CSS
+          </Link>
+          <Link className="home-link" to={"/quizz/typeScript"}>
+            {" "}
+            TypeScript
+          </Link>
+        </div>
       </div>
     </>
   );

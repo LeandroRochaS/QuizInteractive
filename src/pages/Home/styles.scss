@@ -8,10 +8,38 @@
 }
 
 .home-title {
-  font-size: 7rem;
+  font-size: 9rem;
   color: #fff;
 
   b {
     color: #4225b6;
+  }
+}
+
+.home-content-buttons {
+  display: flex;
+  gap: 30px;
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 3rem;
+  font-size: 1.3rem;
+  color: #fff;
+  text-decoration: none;
+
+  background-color: #4225b6;
+  padding: 0.39rem 1rem;
+  border-radius: 40px;
+  font-weight: 700;
+
+  transition: all 1s ease-in-out;
+
+  &:hover {
+    color: #4225b6;
+    background-color: #fff;
   }
 }
