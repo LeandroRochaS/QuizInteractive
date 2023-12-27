@@ -55,10 +55,10 @@ export default function Quizz() {
       setErros(erros + 1);
       handleAudioError();
     }
-
     handleSubmitResponse();
     setTimeout(() => {
       setPerguntaAtual(perguntaAtual + 1);
+      window.scrollTo(0, 0);
       handleSubmitResponseRemove();
     }, 2000);
   }
