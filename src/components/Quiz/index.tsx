@@ -48,8 +48,8 @@ export default function Quizz() {
       setErros(erros + 1);
       handleAudioError();
     }
-    handleSubmitResponse();
 
+    handleSubmitResponse();
     setTimeout(() => {
       setPerguntaAtual(perguntaAtual + 1);
       handleSubmitResponseRemove();
@@ -93,6 +93,11 @@ export default function Quizz() {
     });
   }
 
+  const calcularPorcentagemAcerto = () => {
+    if (perguntas.length === 0) return 0;
+    return ((acertos / perguntas.length) * 100).toFixed(0);
+  };
+
   return (
     <>
       <div className="quiz-container">
@@ -130,6 +135,7 @@ export default function Quizz() {
             <div className="quiz-result">
               <h2>Acertos: {acertos}</h2>
               <h2>Erros: {erros}</h2>
+              <h2>Porcentagem: {calcularPorcentagemAcerto()}%</h2>
               <button onClick={() => handleRestart()}>Reiniciar</button>
             </div>
           )}
