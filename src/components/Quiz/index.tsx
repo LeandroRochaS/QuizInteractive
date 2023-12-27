@@ -11,6 +11,7 @@ import { FcCheckmark } from "react-icons/fc";
 import { FcCancel } from "react-icons/fc";
 import audioError from "../../assets/sounds/error-126627.mp3";
 import audioCorrect from "../../assets/sounds/interface-124464.mp3";
+import clickButton from "../../assets/sounds/click-124467.mp3";
 
 type Pergunta = {
   pergunta: string;
@@ -39,6 +40,12 @@ export default function Quizz() {
     }
   }, [assunto, perguntas]);
 
+  function handleSubmitResponse() {
+    icons.forEach((icon) => {
+      icon.classList.add("show");
+    });
+  }
+
   function handleResponse(resposta: string) {
     if (resposta === perguntas[perguntaAtual].respostaCorreta) {
       setAcertos(acertos + 1);
@@ -57,6 +64,8 @@ export default function Quizz() {
   }
 
   function handleRestart() {
+    const audio = new Audio(clickButton);
+    audio.play();
     setPerguntaAtual(0);
     setAcertos(0);
     setErros(0);
@@ -80,12 +89,6 @@ export default function Quizz() {
     }, 1000);
   }
   const icons = document.querySelectorAll(".icons");
-
-  function handleSubmitResponse() {
-    icons.forEach((icon) => {
-      icon.classList.add("show");
-    });
-  }
 
   function handleSubmitResponseRemove() {
     icons.forEach((icon) => {
