@@ -18,9 +18,43 @@ export default function Quizz() {
     setPerguntas(getAllPerguntas());
   }, [perguntaAtual, perguntas]);
 
+  function handleResponse(resposta: string) {
+    if (resposta === perguntas[perguntaAtual].respostaCorreta) {
+      setAcertos(acertos + 1);
+    } else {
+      setErros(erros + 1);
+    }
+    setPerguntaAtual(perguntaAtual + 1);
+  }
+
   return (
     <>
       <h1>Quizz</h1>
+
+      <h2>{perguntas[perguntaAtual]?.pergunta}</h2>
+      <span>
+        (
+        {perguntas.length != perguntaAtual
+          ? `${perguntaAtual + 1}/${perguntas.length}`
+          : `0/0`}
+        )
+      </span>
+
+      <div className="respostas">
+        {perguntas.length != perguntaAtual ? (
+          perguntas[perguntaAtual]?.respostas.map((resposta, index) => (
+            <button key={index} onClick={() => handleResponse(resposta)}>
+              {resposta}
+            </button>
+          ))
+        ) : (
+          <div>
+            <h2>Acertos: {acertos}</h2>
+            <h2>Erros: {erros}</h2>
+            <button onClick={() => setPerguntaAtual(0)}>Reiniciar</button>
+          </div>
+        )}
+      </div>
     </>
   );
 }
