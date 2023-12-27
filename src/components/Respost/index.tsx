@@ -7,7 +7,7 @@ type RespostProps = {
 export default function Respost(props: RespostProps) {
   return (
     <>
-      <h1> {props.text}</h1>
+      <h1 className="respost-button"> {props.text}</h1>
     </>
   );
 }
