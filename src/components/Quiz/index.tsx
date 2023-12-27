@@ -5,8 +5,12 @@ import {
   getAllPerguntasReact,
   getAllPerguntasTypeScript,
 } from "../../data/data";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Respost from "../Respost";
+import { FcCheckmark } from "react-icons/fc";
+import { FcCancel } from "react-icons/fc";
+import audioError from "../../assets/sounds/error-126627.mp3";
+import audioCorrect from "../../assets/sounds/interface-124464.mp3";
 
 type Pergunta = {
   pergunta: string;
@@ -38,10 +42,18 @@ export default function Quizz() {
   function handleResponse(resposta: string) {
     if (resposta === perguntas[perguntaAtual].respostaCorreta) {
       setAcertos(acertos + 1);
+      handleAudioCorrent();
+      flash();
     } else {
       setErros(erros + 1);
+      handleAudioError();
     }
-    setPerguntaAtual(perguntaAtual + 1);
+    handleSubmitResponse();
+
+    setTimeout(() => {
+      setPerguntaAtual(perguntaAtual + 1);
+      handleSubmitResponseRemove();
+    }, 2000);
   }
 
   function handleRestart() {
@@ -50,31 +62,78 @@ export default function Quizz() {
     setErros(0);
   }
 
+  function handleAudioCorrent() {
+    const audio = new Audio(audioCorrect);
+    audio.play();
+  }
+
+  function handleAudioError() {
+    const audio = new Audio(audioError);
+    audio.play();
+  }
+
+  function flash() {
+    const body = document.querySelector(":root");
+    body?.classList.add("flash");
+    setTimeout(() => {
+      body?.classList.remove("flash");
+    }, 1000);
+  }
+  const icons = document.querySelectorAll(".icons");
+
+  function handleSubmitResponse() {
+    icons.forEach((icon) => {
+      icon.classList.add("show");
+    });
+  }
+
+  function handleSubmitResponseRemove() {
+    icons.forEach((icon) => {
+      icon.classList.remove("show");
+    });
+  }
+
   return (
     <>
-      <h1>Digital Quiz</h1>
-      <span>
-        {perguntas.length != perguntaAtual
-          ? `Questão ${perguntaAtual + 1}/${perguntas.length}`
-          : ``}
-      </span>
+      <div className="quiz-container">
+        <div className="quiz-title">
+          <Link className="Link" to="/">
+            <h1>Digital Quiz</h1>
+          </Link>
 
-      <h2>{perguntas[perguntaAtual]?.pergunta}</h2>
+          <span>
+            {perguntas.length != perguntaAtual
+              ? `Questão ${perguntaAtual + 1}/${perguntas.length}`
+              : ``}
+          </span>
+        </div>
+        <h2 className="quiz-pergunta">{perguntas[perguntaAtual]?.pergunta}</h2>
 
-      <div className="respostas">
-        {perguntas.length != perguntaAtual ? (
-          perguntas[perguntaAtual]?.respostas.map((resposta, index) => (
-            <button key={index} onClick={() => handleResponse(resposta)}>
-              <Respost text={resposta}></Respost>
-            </button>
-          ))
-        ) : (
-          <div>
-            <h2>Acertos: {acertos}</h2>
-            <h2>Erros: {erros}</h2>
-            <button onClick={() => handleRestart()}>Reiniciar</button>
-          </div>
-        )}
+        <div className="respostas">
+          {perguntas.length != perguntaAtual ? (
+            perguntas[perguntaAtual]?.respostas.map((resposta, index) => (
+              <button key={index} onClick={() => handleResponse(resposta)}>
+                {
+                  <span className="icons">
+                    {resposta === perguntas[perguntaAtual].respostaCorreta ? (
+                      <FcCheckmark />
+                    ) : (
+                      <FcCancel />
+                    )}
+                  </span>
+                }
+
+                <Respost text={resposta}></Respost>
+              </button>
+            ))
+          ) : (
+            <div className="quiz-result">
+              <h2>Acertos: {acertos}</h2>
+              <h2>Erros: {erros}</h2>
+              <button onClick={() => handleRestart()}>Reiniciar</button>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
