@@ -1,21 +1,26 @@
 .quiz-container {
-  animation-duration: 2s;
-  animation-name: slidein;
-  animation-direction: alternate;
+  animation: slidein 4s alternate;
 
   transition: transform 0.5s ease-in-out;
   scroll-behavior: smooth;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .quiz-title {
+  display: flex;
+  justify-content: space-between;
   a {
     text-decoration: none;
   }
   h1 {
-    font-size: 1.7rem;
+    font-size: 2.2rem;
     font-weight: 300;
     text-align: center;
     color: #fff;
     transition: transform 0.5s ease-in-out;
+    font-family: Abel;
 
     &:hover {
       transform: scale(1.05);
@@ -24,72 +29,85 @@
   }
 
   span {
-    font-size: 2.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: #fff;
     text-align: center;
-  }
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
 
-.quiz-result-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    p {
+      padding-top: 10px;
+    }
+    .bar {
+      width: 100%;
+      max-width: 500px;
+      height: 20px;
+      background-color: #fff;
+      margin: 0 10px;
+      display: flex;
+      justify-content: flex-start;
+      border-radius: 16px;
 
-  button {
-    margin-top: 2rem;
-    width: 100%;
-
-    max-width: 220px;
-    height: 3.5rem;
-    font-size: 1.5rem;
-    color: #4225b6;
-    border: none;
-    text-decoration: none;
-
-    background-color: #fff;
-    padding: 5rem 4rem;
-    border-radius: 40px;
-    font-weight: 700;
-    cursor: pointer;
-
-    transition: all 0.6s ease-in-out;
-
-    &:hover {
-      transform: scale(0.9);
+      .barContent {
+        height: 100%;
+        border-radius: 16px;
+        background: #31cd63;
+      }
     }
   }
 }
 
-.quiz-result-content {
+.quiz-pergunta {
+  margin-top: 6rem;
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+  font-family: "ABeeZee", sans-serif;
+}
+
+.quiz-result-btns {
   display: flex;
-  width: 100%;
-  height: 100%;
+  gap: 3rem;
+  margin: 2rem auto;
+  justify-content: center;
+}
 
-  max-height: 800px;
-  max-width: 600px;
-
-  flex-direction: column;
+.btn2 {
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 30px;
-  border: 1px solid #1e1e1e;
-  background: #ffa89a;
-  box-shadow: 0px 16px 60px 0px rgba(90, 90, 90, 0.15);
+  border: none;
 
-  h2 {
-    font-size: 3rem;
-    font-weight: 700;
-    text-align: center;
-    color: #1e1e1e;
+  border-radius: 26px;
+  padding: 0.8rem 2rem;
+  width: 44%;
+
+  transition: all 0.6s ease-in-out;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  &:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
   }
 }
 
-.quiz-pergunta {
-  margin-top: 12rem;
-  font-size: 3rem;
-  font-weight: 900;
-  text-align: center;
+.quiz-container .btnRestart {
+  transition: all 0.6s ease-in-out;
+  color: #fff;
+  border: 1px solid #cdcd;
+  font-weight: 700;
+  background: transparent;
+}
+
+.quiz-container .btnHome {
+  transition: all 0.6s ease-in-out;
+  background: #45c486;
+  color: #fff;
 }
 
 .respostas {
@@ -98,17 +116,19 @@
   gap: 30px;
   margin-top: 5rem;
 
-  button {
+  .respostaItem {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 10px;
     cursor: pointer;
 
-    transition: all 0.6s ease-in-out;
-    border: 1px solid #1e1e1e;
+    border-radius: 15px;
 
-    background: #fffaf0;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid #464646;
+
+    background: #f4f3f6;
 
     &:hover {
       transform: scale(1.05);
@@ -120,13 +140,16 @@
 
     h1 {
       font-family: "ABeeZee", sans-serif;
+      color: #060710;
     }
   }
 }
 .icons {
   display: none;
-  margin-top: 5px;
-  font-size: 1.5rem;
+  width: 24px;
+  height: 24px;
+  font-size: 1.9em;
+  margin-bottom: 30px;
 }
 
 .show {
@@ -134,11 +157,11 @@
 }
 
 .flash {
-  animation: flash 1s;
+  animation: flash 2s ease-in-out;
 }
 
-.shake {
-  animation: shake 0.6s ease-in-out;
+.flash-bad {
+  animation: flash-bad 2s ease-in-out, shake 0.6s linear;
 }
 
 @keyframes flash {
@@ -146,7 +169,16 @@
     background-color: rgb(109, 109, 109);
   }
   to {
-    background-color: #3ec23e;
+    background-color: #62c562;
+  }
+}
+
+@keyframes flash-bad {
+  from {
+    background-color: rgb(109, 109, 109);
+  }
+  to {
+    background-color: #f54545;
   }
 }
 
@@ -186,10 +218,6 @@
   }
 
   .quiz-title {
-    h1 {
-      font-size: 1.5rem;
-    }
-
     span {
       font-size: 2rem;
     }
@@ -202,5 +230,36 @@
 
   .respostas {
     grid-template-columns: auto(1fr 1fr);
+
+    button {
+      gap: 2px;
+      h1 {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .quiz-result-btns {
+    gap: 1rem;
+  }
+
+  .quiz-title {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    font-size: 1rem;
+
+    span {
+      width: 100%;
+      max-width: 100%;
+      margin-top: 0.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        font-size: 1.2rem;
+      }
+    }
   }
 }

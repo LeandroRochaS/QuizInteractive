@@ -7,11 +7,13 @@ import {
 } from "../../data/data";
 import { Link, useParams } from "react-router-dom";
 import Respost from "../Respost";
-import { FcCheckmark } from "react-icons/fc";
-import { FcCancel } from "react-icons/fc";
+
 import audioError from "../../assets/sounds/error-126627.mp3";
 import audioCorrect from "../../assets/sounds/interface-124464.mp3";
 import clickButton from "../../assets/sounds/click-124467.mp3";
+import { Loading } from "../Loading";
+import ResultQuiz from "../ResultQuiz";
+import { calcularPorcentagemProgresso } from "../../scripts/functions";
 
 type Pergunta = {
   pergunta: string;
@@ -25,8 +27,7 @@ export default function Quizz() {
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
   const { assunto } = useParams();
-
-  console.log(assunto);
+  const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (assunto === "react") {
@@ -38,24 +39,27 @@ export default function Quizz() {
     if (assunto === "typeScript") {
       setPerguntas(getAllPerguntasTypeScript());
     }
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
   }, [assunto, perguntas]);
 
   function handleResponse(resposta: string) {
     if (resposta === perguntas[perguntaAtual].respostaCorreta) {
       setAcertos(acertos + 1);
       handleAudioCorrent();
-      flash();
+      flashSucess();
     } else {
       setErros(erros + 1);
-      shake();
-
+      flashError();
       handleAudioError();
+      shake();
     }
-    handleSubmitResponse();
+
     setTimeout(() => {
       setPerguntaAtual(perguntaAtual + 1);
       window.scrollTo(0, 0);
-      handleSubmitResponseRemove();
     }, 2000);
   }
 
@@ -65,6 +69,11 @@ export default function Quizz() {
     setPerguntaAtual(0);
     setAcertos(0);
     setErros(0);
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
   }
 
   function handleAudioCorrent() {
@@ -77,11 +86,19 @@ export default function Quizz() {
     audio.play();
   }
 
-  function flash() {
+  function flashSucess() {
     const body = document.querySelector("body");
     body?.classList.add("flash");
     setTimeout(() => {
       body?.classList.remove("flash");
+    }, 1000);
+  }
+
+  function flashError() {
+    const body = document.querySelector("body");
+    body?.classList.add("flash-bad");
+    setTimeout(() => {
+      body?.classList.remove("flash-bad");
     }, 1000);
   }
 
@@ -93,70 +110,80 @@ export default function Quizz() {
     }, 1000);
   }
 
-  const icons = document.querySelectorAll(".icons");
-
-  function handleSubmitResponse() {
-    icons.forEach((icon) => {
-      icon.classList.add("show");
-    });
-  }
-
-  function handleSubmitResponseRemove() {
-    icons.forEach((icon) => {
-      icon.classList.remove("show");
-    });
-  }
-
-  const calcularPorcentagemAcerto = () => {
-    if (perguntas.length === 0) return 0;
-    return ((acertos / perguntas.length) * 100).toFixed(0);
-  };
-
   return (
     <>
       <div className="quiz-container">
-        <div className="quiz-title">
+        {isloading ? <Loading /> : ""}
+        <div
+          className="quiz-title"
+          style={{
+            justifyContent: `${
+              perguntas.length != perguntaAtual ? `space-between` : `center`
+            }`,
+          }}
+        >
           <Link to="/">
             <h1>Digital Quiz</h1>
           </Link>
 
           <span>
-            {perguntas.length != perguntaAtual
-              ? `Questão ${perguntaAtual + 1}/${perguntas.length}`
-              : ``}
+            {perguntas.length != perguntaAtual ? (
+              <span className="bar">
+                <div
+                  className="barContent"
+                  style={{
+                    width: `${calcularPorcentagemProgresso(
+                      perguntas.length,
+                      perguntaAtual
+                    )}%`,
+                  }}
+                ></div>{" "}
+              </span>
+            ) : (
+              ``
+            )}
+            {perguntas.length != perguntaAtual ? (
+              <p>
+                {perguntaAtual + 1}/{perguntas.length}
+              </p>
+            ) : (
+              ``
+            )}
           </span>
         </div>
         <h2 className="quiz-pergunta">{perguntas[perguntaAtual]?.pergunta}</h2>
-
-        <div className="respostas">
-          {perguntas.length != perguntaAtual ? (
-            perguntas[perguntaAtual]?.respostas.map((resposta, index) => (
-              <button key={index} onClick={() => handleResponse(resposta)}>
-                {
-                  <span className="icons">
-                    {resposta === perguntas[perguntaAtual].respostaCorreta ? (
-                      <FcCheckmark />
-                    ) : (
-                      <FcCancel />
-                    )}
-                  </span>
-                }
-
-                <Respost text={resposta}></Respost>
+        {perguntas.length !== perguntaAtual ? (
+          <div className="respostas">
+            {perguntas[perguntaAtual]?.respostas.map((resposta, index) => (
+              <button
+                className="respostaItem"
+                key={index}
+                onClick={() => handleResponse(resposta)}
+              >
+                <Respost text={resposta} />
               </button>
-            ))
-          ) : (
-            <div className="quiz-result-container">
-              <div className="quiz-result-content">
-                <h2>Acertos: {acertos}</h2>
-                <h2>Erros: {erros}</h2>
-                <h2>Porcentagem: {calcularPorcentagemAcerto()}%</h2>
-              </div>
-
-              <button onClick={() => handleRestart()}>Reiniciar</button>
+            ))}
+          </div>
+        ) : (
+          <div className="quiz-result-container">
+            <ResultQuiz
+              acertos={acertos}
+              erros={erros}
+              qtdPerguntas={perguntas.length}
+            />
+            <div className="quiz-result-btns">
+              <Link className="Link btn2 btnHome" to="/">
+                Home
+              </Link>
+              <button
+                className="btn2 btnRestart"
+                onClick={() => handleRestart()}
+              >
+                Reiniciar
+              </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
