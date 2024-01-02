@@ -108,3 +108,38 @@
     transform: scale(1.1);
   }
 }
+
+@media screen and (max-width: 768px) {
+  .modal-content {
+    flex-direction: column;
+    width: 100%;
+    overflow: scroll;
+
+    .modal-content-left {
+      max-width: 80%;
+
+      img {
+        width: 80%;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #fff;
+        text-align: center;
+      }
+    }
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 80%;
+  }
+
+  .modal-button {
+    position: relative;
+    margin-top: 2rem;
+    align-self: flex-end;
+  }
+}
