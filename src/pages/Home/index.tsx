@@ -3,21 +3,24 @@ import "./styles.scss";
 import clickButton from "../../assets/sounds/click-124467.mp3";
 import poligono from "../../assets/Polygon 1.svg";
 import { useEffect, useState } from "react";
-import robot from "../../assets/images/robot-with-clipboard.png";
-import Modal from "react-modal";
-import { HiArrowSmRight } from "react-icons/hi";
-import { FaPerson } from "react-icons/fa6";
+
+import { HiOutlineUser } from "react-icons/hi";
+import { ModalLogin } from "../../components/ModalLogin";
+import { ModalProfile } from "../../components/ModalProfile";
 
 export default function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalProfileIsOpen, setModalProfileIsOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const storageName = localStorage.getItem("userName");
-    if (!storageName) {
+    const storageEmail = localStorage.getItem("email");
+
+    if (!storageName || !storageEmail) {
       setModalIsOpen(true);
     } else {
+      setModalIsOpen(false);
       setUserName(storageName);
     }
   }, []);
@@ -26,28 +29,42 @@ export default function Home() {
     setModalIsOpen(false);
   }
 
-  function handleSubmitName(name: string, email: string) {
-    if (!name || name.trim() === "" || !email || email.trim() === "") {
+  function handleClickLink() {
+    if (!userName) {
       return;
     }
+    const audio = new Audio(clickButton);
 
-    localStorage.setItem("userName", name);
-    localStorage.setItem("email", email);
-    setUserName(name);
-    setEmail(email);
-    setModalIsOpen(false);
+    audio.play();
   }
 
-  function handleClickLink() {
-    const audio = new Audio(clickButton);
-    audio.play();
+  function handleModalProfileClose() {
+    setModalProfileIsOpen(false);
+  }
+  function handleModalProfileOpen() {
+    if (!localStorage.getItem("userName")) {
+      setModalIsOpen(true);
+      return;
+    }
+    setModalProfileIsOpen(true);
   }
 
   return (
     <>
-      <div className="userMenu">
-        <FaPerson />
+      <div onClick={handleModalProfileOpen} className="userMenu">
+        <HiOutlineUser />
       </div>
+      <ModalLogin
+        modalIsOpen={modalIsOpen}
+        handleModalClose={handleModalClose}
+      />
+      {localStorage.getItem("userName") && (
+        <ModalProfile
+          modalIsOpen={modalProfileIsOpen}
+          handleModalClose={handleModalProfileClose}
+        />
+      )}
+
       <div className="home-content">
         <h1 className="home-title animate__flash">
           <b>Digital </b> Quiz
@@ -59,7 +76,7 @@ export default function Home() {
           <Link
             onClick={handleClickLink}
             className="home-link"
-            to={"/quizz/react"}
+            to={userName ? "/quizz/react" : ""}
           >
             {" "}
             React
@@ -67,7 +84,7 @@ export default function Home() {
           <Link
             onClick={handleClickLink}
             className="home-link"
-            to={"/quizz/css"}
+            to={userName ? "/quizz/css" : ""}
           >
             {" "}
             CSS
@@ -75,57 +92,13 @@ export default function Home() {
           <Link
             onClick={handleClickLink}
             className="home-link"
-            to={"/quizz/typeScript"}
+            to={userName ? "/quizz/typeScript" : ""}
           >
             {" "}
             TypeScript
           </Link>
         </div>
       </div>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={handleModalClose}
-        contentLabel="Informe seu nome"
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <div className="modal-content">
-          <div className="modal-content-left">
-            <img className="modal-image" src={robot} alt="robot"></img>
-            <h1 className="modal-title">Bem vindo ao Digital Quiz!</h1>
-          </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmitName(userName!, email!);
-            }}
-            className="modal-form"
-          >
-            <p>Por favor, preencha com seus dados</p>
-
-            <input
-              type="text"
-              name="name"
-              onChange={(e) => setUserName(e.target.value)}
-              required
-              className="modal-input"
-              placeholder="Username"
-            />
-
-            <input
-              type="text"
-              name="name"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="modal-input"
-              placeholder="E-mail"
-            />
-            <button type="submit" className="modal-button">
-              <HiArrowSmRight style={{ color: "55BB9C", fontSize: "32px" }} />
-            </button>
-          </form>
-        </div>
-      </Modal>
     </>
   );
 }
