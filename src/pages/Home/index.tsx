@@ -23,10 +23,15 @@ export default function Home() {
       setModalIsOpen(false);
       setUserName(storageName);
     }
-  }, []);
+  }, [userName]);
 
   function handleModalClose() {
     setModalIsOpen(false);
+
+    if (localStorage.getItem("userName")) {
+      setUserName(localStorage.getItem("userName"));
+      return;
+    }
   }
 
   function handleClickLink() {
@@ -76,25 +81,22 @@ export default function Home() {
           <Link
             onClick={handleClickLink}
             className="home-link"
-            to={userName ? "/quizz/react" : ""}
+            to={userName != null ? "/quizz/react" : ""}
           >
-            {" "}
             React
           </Link>
           <Link
             onClick={handleClickLink}
             className="home-link"
-            to={userName ? "/quizz/css" : ""}
+            to={userName != null ? "/quizz/css" : ""}
           >
-            {" "}
             CSS
           </Link>
           <Link
             onClick={handleClickLink}
             className="home-link"
-            to={userName ? "/quizz/typeScript" : ""}
+            to={userName != null ? "/quizz/typeScript" : ""}
           >
-            {" "}
             TypeScript
           </Link>
         </div>
