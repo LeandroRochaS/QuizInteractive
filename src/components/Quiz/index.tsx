@@ -39,7 +39,9 @@ export default function Quizz() {
     if (assunto === "typeScript") {
       setPerguntas(getAllPerguntasTypeScript());
     }
-
+    const audio = new Audio(clickButton);
+    audio.play();
+    window.scrollTo(0, 0);
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
