@@ -43,7 +43,7 @@ export default function Quizz() {
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-  }, [assunto, perguntas]);
+  }, [assunto]);
 
   function handleResponse(resposta: string) {
     if (resposta === perguntas[perguntaAtual].respostaCorreta) {
