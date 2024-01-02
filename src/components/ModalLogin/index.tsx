@@ -1,4 +1,4 @@
-import robot from "../../assets/images/robot-with-clipboard.png";
+import robot from "../../assets/images/robot-doing-peace-sign.png";
 import Modal from "react-modal";
 import { HiArrowSmRight } from "react-icons/hi";
 import { useState } from "react";
