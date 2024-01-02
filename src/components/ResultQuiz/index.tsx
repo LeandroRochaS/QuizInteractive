@@ -13,13 +13,32 @@ export default function ResultQuiz(props: ResultQuizProps) {
   const [nome, setNome] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("passou no useEffect");
     const storageName = localStorage.getItem("userName");
     if (!storageName) {
       setNome("usuário");
     } else {
       setNome(storageName);
     }
-  }, []);
+
+    if (props.acertos !== 0 || props.erros !== 0) {
+      const storedEstatisticas = localStorage.getItem("estatisticas");
+      const estatistica = {
+        acertos: props.acertos,
+        erros: props.erros,
+        qtdPerguntas: props.qtdPerguntas,
+      };
+
+      if (storedEstatisticas) {
+        const estatisticas = JSON.parse(storedEstatisticas);
+        estatisticas.push(estatistica);
+        localStorage.setItem("estatisticas", JSON.stringify(estatisticas));
+      } else {
+        const estatisticas = [estatistica];
+        localStorage.setItem("estatisticas", JSON.stringify(estatisticas));
+      }
+    }
+  }, [props.acertos, props.erros, props.qtdPerguntas]);
 
   return (
     <>

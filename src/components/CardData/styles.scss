@@ -1,0 +1,45 @@
+.card-profile-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-center;
+  gap: 15px;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+    text-transform: uppercase;
+    padding-top: 10px;
+  }
+
+  .card-profile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ede8e3;
+    font-size: 1.5rem;
+  }
+}
+
+.card-profile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 90%;
+
+  margin-bottom: 1rem;
+  padding: 8px;
+  border-bottom: 1px solid #cdcdcd;
+
+  span {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #fff;
+    text-transform: uppercase;
+  }
+}
