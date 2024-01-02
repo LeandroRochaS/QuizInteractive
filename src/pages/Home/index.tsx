@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="userMenu" style={{ textAlign: "left", fontSize: "2rem" }}>
+      <div className="userMenu">
         <FaPerson />
       </div>
       <div className="home-content">
