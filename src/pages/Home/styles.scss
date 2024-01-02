@@ -64,6 +64,120 @@ h2 {
   overflow: hidden;
 }
 
+/* MODAL */
+/* Adicione estas regras de estilo ao final do seu arquivo SCSS */
+
+.modal {
+  /* Estilos para o modal */
+  // background-color:
+  background-color: rgba(243, 170, 126, 1);
+  width: 90%;
+  height: 60%;
+  max-width: 800px;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 24px;
+  padding: 2rem;
+  z-index: 10;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.overlay {
+  /* Estilos para a overlay do modal */
+  border-radius: 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-image {
+  /* Estilos para a imagem do modal */
+  width: 80%;
+  height: 100%;
+}
+
+.modal-content {
+  /* Estilos para o conteúdo do modal */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  background: transparent;
+  border: none;
+
+  .modal-content-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 50%;
+
+    img {
+      align-self: self-start;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #fff;
+    }
+  }
+}
+
+.userMen .modal-form {
+  display: grid;
+  align-content: center;
+  max-width: 50%;
+  width: 100%;
+  height: 100%;
+
+  p {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+}
+
+.modal-input {
+  border-radius: 15px;
+  border: 1px solid #ccc;
+  background: #fffaf0;
+  padding: 0.5rem 1rem;
+  color: #505050;
+  font-family: ABeeZee;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 2rem;
+}
+
+.modal-button {
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+
+  border-radius: 50%;
+  padding: 7px;
+
+  background: #fffaf0;
+  border: none;
+  -webkit-box-shadow: -1px 2px 37px 1px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: -1px 2px 37px 1px rgba(0, 0, 0, 0.39);
+  box-shadow: -1px 2px 37px 1px rgba(0, 0, 0, 0.39);
+  transition: all 0.6s linear;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
 @keyframes slidehome {
   from {
     margin-left: 0%;
@@ -111,5 +225,29 @@ h2 {
 
   .home-link {
     margin-top: 1rem;
+  }
+
+  .modal {
+    height: 80%;
+  }
+
+  .modal-content {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .modal-content .modal-content-left {
+    margin-bottom: 2rem;
+    max-width: 100%;
+
+    img {
+      align-self: center;
+    }
+  }
+
+  .modal-form {
+    max-width: 100%;
+    width: 100%;
   }
 }
